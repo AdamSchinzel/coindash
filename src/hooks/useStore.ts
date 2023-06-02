@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 /**
  * Wrapper so Zustand can be used with Next.js
- * @param store The store function which accepts a callback taki ng the state as a parameter
+ * @param store The store function which accepts a callback taking the state as a parameter
  * @param callback The callback function that receives the state and returns a transformed value
  * @returns Updated data based on the callback function
  */

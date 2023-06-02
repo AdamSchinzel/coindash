@@ -59,7 +59,7 @@ const Portfolio = () => {
       </Text>
       {isLoading ? (
         <Center my={18}>
-          <Spinner color="cyan.500" />
+          <Spinner color="teal.500" />
         </Center>
       ) : tokens.aggregatedBalances.length === 0 ? (
         <Center my={8}>

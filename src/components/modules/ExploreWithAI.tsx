@@ -100,7 +100,7 @@ const ExploreWithAI = () => {
       </Flex>
       {isLoading ? (
         <Center my={18}>
-          <Spinner color="cyan.500" />
+          <Spinner color="teal.500" />
         </Center>
       ) : answer ? (
         <Box bg="#FAFAFA" mt={4} p={3} borderRadius={6}>

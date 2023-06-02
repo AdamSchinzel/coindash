@@ -4,7 +4,7 @@
 
 Crypto portfolio tracker with a focus on simplicity and privacy. It's also the first tracker that let's you chat with your portfolio with a little help from AI.
 
-The only complexity that I experienced while developing this was that I found that not much Web3 API providers have endpoints for fetching data from multiple addresses in one call. In fact I found that only Zappier has this but it takes some time from requesting the API key to actually getting so not option for this task.
+The only complexity that I experienced while developing this was that I found that not much Web3 API providers have endpoints for fetching data from multiple addresses in one call. In fact I found that only Zappier has this but it takes some time from requesting the API key to actually getting so not an option for this task.
 
 ## Documentation
 

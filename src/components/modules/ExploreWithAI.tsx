@@ -51,11 +51,11 @@ const ExploreWithAI = () => {
     setQuestion("");
     setIsLoading(true);
 
-    const prompt = `Given this crypto poftfolio with these tokens: ${JSON.stringify(
+    const prompt = `Given a crypto portfolio with these tokens: ${JSON.stringify(
       tokens.aggregatedBalances
     )} and this Ethereum balance ${
       ether.balance
-    }, answer this question from user: ${question}. When working this currencies use USD. If you answer something that change during time write to what day you have knowledge.`;
+    }, answer this question from user: ${question}. When working with currencies use USD. If you answer something that changes during time, write to what day you have knowledge.`;
 
     try {
       const response = await openai.createCompletion({

@@ -68,7 +68,7 @@ const Portfolio = () => {
       ) : (
         <VStack gap={1}>
           {ether.balance > 0 && (
-            <TokenItem name="Ethereum" symbol="ETH" contractAddress="" balance={ether.balance} price={ether.price} />
+            <TokenItem name="Ethereum" symbol="ETH" contractAddress="" balance={ether.balance} price={ether.value} />
           )}
           {tokens.aggregatedBalances.map((token, i) => (
             <TokenItem

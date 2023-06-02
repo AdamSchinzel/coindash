@@ -3,7 +3,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import ExploreWithAI from "./ExploreWithAI";
 import Portfolio from "./Portfolio";
 
-const TabNavigation = () => {
+const TabsNavigation = () => {
   return (
     <Tabs width={["96%", "96%", "70%", "60%"]} mt={8} colorScheme="teal">
       <TabList>
@@ -22,4 +22,4 @@ const TabNavigation = () => {
   );
 };
 
-export default TabNavigation;
+export default TabsNavigation;

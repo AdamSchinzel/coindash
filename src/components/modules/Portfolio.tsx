@@ -55,7 +55,7 @@ const Portfolio = () => {
         <StatHelpText></StatHelpText>
       </Stat>
       <Text fontSize="lg" fontWeight="semibold" mb={3}>
-        Tokens
+        Assets
       </Text>
       {isLoading ? (
         <Center my={18}>
@@ -63,7 +63,7 @@ const Portfolio = () => {
         </Center>
       ) : tokens.aggregatedBalances.length === 0 ? (
         <Center my={8}>
-          <EmptyMessage text="No tokens" />
+          <EmptyMessage text="No assets" />
         </Center>
       ) : (
         <VStack gap={1}>

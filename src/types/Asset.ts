@@ -1,4 +1,4 @@
-type Token = {
+type Asset = {
   symbol: string;
   name: string;
   contractAddress: string;
@@ -6,4 +6,4 @@ type Token = {
   price: number;
 };
 
-export default Token;
+export default Asset;

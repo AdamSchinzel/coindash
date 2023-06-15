@@ -1,10 +1,9 @@
-import Token from "@/types/token";
+import Asset from "@/types/Asset";
 import roundToTwoDigits from "@/utils/roundToTwoDigitis";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { Flex, Link, Text } from "@chakra-ui/react";
-import React from "react";
 
-const AssetItem = ({ name, symbol, contractAddress, balance, price }: Token) => {
+const AssetItem = ({ name, symbol, contractAddress, balance, price }: Asset) => {
   return (
     <Flex justifyContent="flex-start" width="100%">
       <Flex flex={1}>

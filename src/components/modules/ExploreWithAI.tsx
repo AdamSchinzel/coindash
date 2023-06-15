@@ -1,7 +1,7 @@
 import { TOAST_DURATION } from "@/config/constants";
 import { fetchEthBalance, fetchPortfoliosAndAggregate } from "@/services/client";
 import useWalletsStore from "@/stores/useWalletsStore";
-import Token from "@/types/token";
+import Asset from "@/types/Asset";
 import { Box, Button, Center, Flex, Input, Spinner, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useStore } from "zustand";
@@ -12,7 +12,7 @@ const ExploreWithAI = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [question, setQuestion] = useState<string>("");
   const [answer, setAnswer] = useState<string | undefined>("");
-  const [tokens, setTokens] = useState<{ aggregatedBalances: Array<Token>; totalValue: number }>({
+  const [assets, setAssets] = useState<{ aggregatedBalances: Array<Asset>; totalValue: number }>({
     aggregatedBalances: [],
     totalValue: 0,
   });
@@ -23,16 +23,16 @@ const ExploreWithAI = () => {
   const toast = useToast();
 
   useEffect(() => {
-    const fetchTokens = async () => {
-      const tokensData = await fetchPortfoliosAndAggregate(store?.wallets);
+    const fetchAssets = async () => {
+      const assetsData = await fetchPortfoliosAndAggregate(store?.wallets);
       const ethBalanceData = await fetchEthBalance(store?.wallets);
 
       setEther(ethBalanceData);
-      setTokens(tokensData);
+      setAssets(assetsData);
     };
 
     try {
-      fetchTokens();
+      fetchAssets();
     } catch (error) {
       toast({
         title: "Something went wrong",
@@ -48,7 +48,7 @@ const ExploreWithAI = () => {
     setIsLoading(true);
 
     const prompt = `Given a crypto portfolio with these tokens: ${JSON.stringify(
-      tokens.aggregatedBalances
+      assets.aggregatedBalances
     )} and this Ethereum balance ${
       ether.balance
     }, answer this question from user: ${question}. When working with currencies use USD. If you answer something that changes during time, write to what day you have knowledge.`;
@@ -83,14 +83,14 @@ const ExploreWithAI = () => {
     <Flex flexDirection="column">
       <Flex flexDirection={["column", "row", "row"]} width="100%">
         <Input
-          disabled={tokens.aggregatedBalances.length === 0}
+          disabled={assets.aggregatedBalances.length === 0}
           placeholder="Ask any question about your portfolio"
           focusBorderColor="teal.500"
           onChange={(e) => setQuestion(e.target.value)}
           value={question}
         />
         <Button
-          isDisabled={tokens.aggregatedBalances.length === 0}
+          isDisabled={assets.aggregatedBalances.length === 0}
           variant="outline"
           colorScheme="teal"
           ml={[0, 2, 2]}
@@ -109,7 +109,7 @@ const ExploreWithAI = () => {
           {answer}
         </Box>
       ) : (
-        tokens.aggregatedBalances.length === 0 && <EmptyMessage text="Connect wallet to get started" />
+        assets.aggregatedBalances.length === 0 && <EmptyMessage text="Connect wallet to get started" />
       )}
     </Flex>
   );

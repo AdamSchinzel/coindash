@@ -1,14 +1,14 @@
 import { CRYPTO_COMPARE_API_URL, ETHERSCAN_API_URL } from "@/config/constants";
-import Token from "@/types/token";
+import Asset from "@/types/Asset";
 import weiToEther from "@/utils/weiToEther";
 import axios from "axios";
 
 /**
- * Fetches token transactions data for a given wallet address from the Etherscan API
+ * Fetches asset transactions data for a given wallet address from the Etherscan API
  * @param address - The wallet address
- * @returns An array of token transaction objects
+ * @returns An array of asset transaction objects
  */
-const fetchTokenData = async (address: string) => {
+const fetchAssetData = async (address: string) => {
   const result = await axios.get(
     `${ETHERSCAN_API_URL}/api?module=account&action=tokentx&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`
   );
@@ -16,43 +16,45 @@ const fetchTokenData = async (address: string) => {
 };
 
 /**
- * Fetches the current price of a token in USD via CryptoCompare API
- * @param symbol - The token symbol (e.g. "ETH")
- * @returns The price of the token in USD
+ * Fetches the current price of a asset in USD via CryptoCompare API
+ * @param symbol - The asset symbol (e.g. "ETH")
+ * @returns The price of the asset in USD
  */
-const fetchTokenPrice = async (symbol: string): Promise<number> => {
+const fetchAssetPrice = async (symbol: string): Promise<number> => {
   const result = await axios.get(`${CRYPTO_COMPARE_API_URL}/data/price?fsym=${symbol}&tsyms=USD`);
   return result.data.USD;
 };
 
 /**
- * Aggregates token balances and prices of an array of wallet addresses
- * @param walletsAddresses - An array of wallet addresses
- * @returns An array of all tokens and the total value
+ * Aggregates asset balances and prices of an array of assets of each wallet address
+ * @param walletsAddresses - An array of assets of each wallet address
+ * @returns An array of all asset and the total value
  */
 const aggregateData = async (walletsAddresses: Array<string>) => {
-  const aggregatedBalances: Array<Token> = [];
+  const aggregatedBalances: Array<Asset> = [];
 
   let totalValue = 0;
 
   for (const wallet of walletsAddresses) {
     const walletArray = Array.isArray(wallet) ? wallet : [wallet];
 
-    for (const token of walletArray) {
-      const balance = parseFloat(token.value) / 10 ** parseInt(token.tokenDecimal);
+    for (const asset of walletArray) {
+      const balance = parseFloat(asset.value) / 10 ** parseInt(asset.tokenDecimal);
 
-      const existingTokenIndex = aggregatedBalances.findIndex((t) => t.contractAddress === token.contractAddress);
+      const existingAssetIndex = aggregatedBalances.findIndex(
+        (asset: Asset) => asset.contractAddress === asset.contractAddress
+      );
 
-      const price = (await fetchTokenPrice(token.tokenSymbol)) * balance;
+      const price = (await fetchAssetPrice(asset.tokenSymbol)) * balance;
 
-      if (existingTokenIndex > -1) {
-        aggregatedBalances[existingTokenIndex].balance += balance;
-        aggregatedBalances[existingTokenIndex].price += price;
+      if (existingAssetIndex > -1) {
+        aggregatedBalances[existingAssetIndex].balance += balance;
+        aggregatedBalances[existingAssetIndex].price += price;
       } else {
         aggregatedBalances.push({
-          symbol: token.tokenSymbol,
-          name: token.tokenName,
-          contractAddress: token.contractAddress,
+          symbol: asset.tokenSymbol,
+          name: asset.tokenName,
+          contractAddress: asset.contractAddress,
           balance: balance,
           price: price,
         });
@@ -70,10 +72,10 @@ const aggregateData = async (walletsAddresses: Array<string>) => {
 /**
  * Fetches portfolio data for a list of wallet addresses and aggregates the result
  * @param walletsAddresses - An array of wallet addresses
- * @returns An array of aggregated Token objects
+ * @returns An array of aggregated Asset objects
  */
 export const fetchPortfoliosAndAggregate = async (walletsAddresses: Array<string>) => {
-  const walletData = await Promise.all(walletsAddresses.map(fetchTokenData));
+  const walletData = await Promise.all(walletsAddresses.map(fetchAssetData));
   const aggregatedBalances = await aggregateData(walletData);
   return aggregatedBalances;
 };
@@ -96,7 +98,7 @@ export const fetchEthBalance = async (addresses: Array<string>) => {
   }
 
   const balance = weiToEther(totalBalance);
-  const value = (await fetchTokenPrice("ETH")) * balance;
+  const value = (await fetchAssetPrice("ETH")) * balance;
 
   return { balance, value };
 };

@@ -3,6 +3,7 @@ import { fetchEthBalance, fetchPortfoliosAndAggregate } from "@/services/client"
 import useWalletsStore from "@/stores/useWalletsStore";
 import Asset from "@/types/Asset";
 import { Box, Button, Center, Flex, Input, Spinner, useToast } from "@chakra-ui/react";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useStore } from "zustand";
 
@@ -54,20 +55,20 @@ const ExploreWithAI = () => {
     }, answer this question from user: ${question}. When working with currencies use USD. If you answer something that changes during time, write to what day you have knowledge.`;
 
     try {
-      const response = await fetch("/api/generate-answer", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prompt,
-        }),
-      });
-      const data = await response.json();
+      const response = await axios.post(
+        "/api/generate-answer",
+        { prompt },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.data;
 
       setAnswer(data?.answer);
     } catch (err) {
-      console.log("error: ", err);
+      console.error(err);
       toast({
         title: "There was an error",
         status: "error",

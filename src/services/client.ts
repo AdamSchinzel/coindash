@@ -41,21 +41,26 @@ const aggregateData = async (walletsAddresses: Array<string>) => {
     for (const token of walletArray) {
       const balance = parseFloat(token.value) / 10 ** parseInt(token.tokenDecimal);
 
-      const existingTokenIndex = aggregatedBalances.findIndex((t) => t.symbol === token.tokenSymbol);
+      const existingTokenIndex = aggregatedBalances.findIndex((t) => t.contractAddress === token.contractAddress);
+
+      const price = (await fetchTokenPrice(token.tokenSymbol)) * balance;
 
       if (existingTokenIndex > -1) {
         aggregatedBalances[existingTokenIndex].balance += balance;
+        aggregatedBalances[existingTokenIndex].price += price;
       } else {
         aggregatedBalances.push({
           symbol: token.tokenSymbol,
           name: token.tokenName,
           contractAddress: token.contractAddress,
           balance: balance,
-          price: (await fetchTokenPrice(token.tokenSymbol)) * balance,
+          price: price,
         });
       }
 
-      totalValue += balance;
+      if (price) {
+        totalValue += price;
+      }
     }
   }
 

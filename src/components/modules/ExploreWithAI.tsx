@@ -3,7 +3,6 @@ import { fetchEthBalance, fetchPortfoliosAndAggregate } from "@/services/client"
 import useWalletsStore from "@/stores/wallets";
 import Token from "@/types/token";
 import { Box, Button, Center, Flex, Input, Spinner, useToast } from "@chakra-ui/react";
-import { Configuration, OpenAIApi } from "openai";
 import { useEffect, useState } from "react";
 import { useStore } from "zustand";
 
@@ -45,10 +44,7 @@ const ExploreWithAI = () => {
     }
   }, [store?.wallets]);
 
-  const openai = new OpenAIApi(new Configuration({ apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY }));
-
   const handleAsk = async () => {
-    setQuestion("");
     setIsLoading(true);
 
     const prompt = `Given a crypto portfolio with these tokens: ${JSON.stringify(
@@ -58,19 +54,25 @@ const ExploreWithAI = () => {
     }, answer this question from user: ${question}. When working with currencies use USD. If you answer something that changes during time, write to what day you have knowledge.`;
 
     try {
-      const response = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt,
-        max_tokens: 1000,
+      const response = await fetch("/api/generate-answer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt,
+        }),
       });
-      setAnswer(response.data.choices[0].text);
-    } catch {
+      const data = await response.json();
+
+      setAnswer(data?.answer);
+    } catch (err) {
+      console.log("error: ", err);
       toast({
-        title: "Something went wrong",
-        duration: TOAST_DURATION,
+        title: "There was an error",
         status: "error",
-        position: "bottom-right",
-        variant: "solid",
+        duration: 2000,
+        isClosable: true,
       });
     }
 

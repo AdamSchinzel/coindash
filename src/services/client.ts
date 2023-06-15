@@ -10,7 +10,7 @@ import axios from "axios";
  */
 const fetchAssetData = async (address: string) => {
   const result = await axios.get(
-    `${ETHERSCAN_API_URL}/api?module=account&action=tokentx&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`
+    `${ETHERSCAN_API_URL}/api?module=account&action=tokentx&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${process.env.ETHERSCAN_API_KEY}`
   );
   return result.data.result;
 };
@@ -88,7 +88,7 @@ export const fetchPortfoliosAndAggregate = async (walletsAddresses: Array<string
  */
 export const fetchEthBalance = async (addresses: Array<string>) => {
   const result = await axios.get(
-    `${ETHERSCAN_API_URL}/api?module=account&action=balancemulti&address=${addresses}&tag=latest&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`
+    `${ETHERSCAN_API_URL}/api?module=account&action=balancemulti&address=${addresses}&tag=latest&apikey=${process.env.ETHERSCAN_API_KEY}`
   );
 
   let totalBalance = 0;

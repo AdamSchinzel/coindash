@@ -1,6 +1,6 @@
 import { TOAST_DURATION } from "@/config/constants";
 import { fetchEthBalance, fetchPortfoliosAndAggregate } from "@/services/client";
-import useWalletsStore from "@/stores/wallets";
+import useWalletsStore from "@/stores/useWalletsStore";
 import Token from "@/types/token";
 import { Box, Button, Center, Flex, Input, Spinner, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";

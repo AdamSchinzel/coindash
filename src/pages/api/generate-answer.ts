@@ -1,3 +1,5 @@
+import { NextApiRequest, NextApiResponse } from "next";
+
 const generateAnswer = async ({ prompt }: any) => {
   try {
     const response = await fetch("https://api.openai.com/v1/engines/text-davinci-003/completions", {
@@ -20,7 +22,7 @@ const generateAnswer = async ({ prompt }: any) => {
   }
 };
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { prompt } = req.body;
 
   const answer = await generateAnswer({

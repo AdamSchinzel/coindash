@@ -4,7 +4,7 @@ import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { Flex, Link, Text } from "@chakra-ui/react";
 import React from "react";
 
-const TokenItem = ({ name, symbol, contractAddress, balance, price }: Token) => {
+const AssetItem = ({ name, symbol, contractAddress, balance, price }: Token) => {
   return (
     <Flex justifyContent="flex-start" width="100%">
       <Flex flex={1}>
@@ -20,4 +20,4 @@ const TokenItem = ({ name, symbol, contractAddress, balance, price }: Token) => 
   );
 };
 
-export default TokenItem;
+export default AssetItem;

@@ -1,6 +1,6 @@
 import { ETH_ADDRESS_REGEX, TOAST_DURATION } from "@/config/constants";
 import useStore from "@/hooks/useStore";
-import useWalletsStore from "@/stores/wallets";
+import useWalletsStore from "@/stores/useWalletsStore";
 import shortWalletAddress from "@/utils/shortWalletAddress";
 import { Badge, Button, Flex, HStack, Icon, Input, Text, useToast } from "@chakra-ui/react";
 import { useState } from "react";

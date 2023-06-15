@@ -1,14 +1,14 @@
 import { TOAST_DURATION } from "@/config/constants";
 import { fetchEthBalance, fetchPortfoliosAndAggregate } from "@/services/client";
-import useWalletsStore from "@/stores/wallets";
+import useWalletsStore from "@/stores/useWalletsStore";
 import Token from "@/types/token";
 import roundToTwoDigits from "@/utils/roundToTwoDigitis";
 import { Center, Spinner, Stat, StatHelpText, StatLabel, StatNumber, Text, VStack, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useStore } from "zustand";
 
+import AssetItem from "../elements/AssetItem";
 import EmptyMessage from "../elements/EmptyMessage";
-import TokenItem from "../elements/TokenItem";
 
 const Portfolio = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -68,10 +68,10 @@ const Portfolio = () => {
       ) : (
         <VStack gap={1}>
           {ether.balance > 0 && (
-            <TokenItem name="Ethereum" symbol="ETH" contractAddress="" balance={ether.balance} price={ether.value} />
+            <AssetItem name="Ethereum" symbol="ETH" contractAddress="" balance={ether.balance} price={ether.value} />
           )}
           {tokens.aggregatedBalances.map((token, i) => (
-            <TokenItem
+            <AssetItem
               key={i}
               name={token.name}
               symbol={token.symbol}

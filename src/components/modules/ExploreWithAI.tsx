@@ -56,9 +56,9 @@ const ExploreWithAI = () => {
   const handleAsk = async () => {
     setIsLoading(true);
 
-    const prompt = `Given a crypto portfolio with these tokens: ${processAssets()} and this Ethereum balance ${
+    const prompt = `Given a crypto portfolio with these tokens: ${processAssets()} and Ethereum balance of ${
       ether.balance
-    } which is worth now ${
+    } now worth ${
       ether.value
     }, answer this question from user: ${question}. When working with currencies use USD. If you answer something that changes during time, write to what day you have knowledge.`;
 

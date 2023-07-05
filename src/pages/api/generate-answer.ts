@@ -1,7 +1,11 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const generateAnswer = async ({ prompt }: any) => {
+interface generateAnswerProps {
+  prompt: string;
+}
+
+const generateAnswer = async ({ prompt }: generateAnswerProps) => {
   try {
     const response = await axios.post(
       "https://api.openai.com/v1/engines/text-davinci-003/completions",

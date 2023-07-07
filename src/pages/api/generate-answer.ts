@@ -5,7 +5,7 @@ interface generateAnswerProps {
   prompt: string;
 }
 
-const generateAnswer = async ({ prompt }: generateAnswerProps) => {
+const generateAnswer = async ({ prompt }: generateAnswerProps): Promise<string | undefined> => {
   try {
     const response = await axios.post(
       "https://api.openai.com/v1/engines/text-davinci-003/completions",

@@ -60,7 +60,9 @@ const ExploreWithAI = () => {
       ether.balance
     } now worth ${
       ether.value
-    }, answer this question from user: ${question}. When working with currencies use USD. If you answer something that changes during time, write to what day you have knowledge.`;
+    }, answer this question from user: ${question}. When working with currencies use USD. Knowledge cutoff: 2021-09 Current date: ${
+      new Date().toISOString().split("T")[0]
+    }`;
 
     try {
       const response = await axios.post(
